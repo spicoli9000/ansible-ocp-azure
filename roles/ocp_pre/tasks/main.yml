@@ -1,21 +1,22 @@
 ---
 # Hack for grafana until fixed officially
-- name: Azure | block in file
-  blockinfile:
-    path: /usr/share/ansible/openshift-ansible/roles/openshift_grafana/tasks/install_grafana.yaml
-    insertbefore: " Add new datasource to grafana"
-    block: |
-      - name: "Wait for grafana service"
-        uri:
-          url: "{% raw %}{{ grafana_route }}{% endraw %}/api/datasources"
-          status_code: 200
-        register: result
-        until: result.status == 200
-        retries: 60
-        delay: 1
-  delegate_to: localhost
-  run_once: true
-  become: true
+# 20190513 hack not needed for OCP 3.11
+#- name: Azure | block in file
+#  blockinfile:
+#    path: /usr/share/ansible/openshift-ansible/roles/openshift_grafana/tasks/install_grafana.yaml
+#    insertbefore: " Add new datasource to grafana"
+#    block: |
+#      - name: "Wait for grafana service"
+#        uri:
+#          url: "{% raw %}{{ grafana_route }}{% endraw %}/api/datasources"
+#          status_code: 200
+#        register: result
+#        until: result.status == 200
+#        retries: 60
+#        delay: 1
+#  delegate_to: localhost
+#  run_once: true
+#  become: true
 
 - name: Azure | Import subscribe.yml
   include_tasks: subscribe.yml

@@ -1,14 +1,10 @@
-tenantId: {{ tenant_id.stdout }}
-subscriptionId: {{ subscription_id.stdout }}
-{% if sp_app is defined %}
-aadClientId: {{ sp_app.stdout }}
-{% elif sp_app_id is defined %}
+tenantId: {{ tenant_id }}
+subscriptionId: {{ subscription_id }}
 aadClientId: {{ sp_app_id }}
-{% endif %}
 {% if sp_secret is defined %}
 aadClientSecret: {{ sp_secret }}
 {% endif %}
-aadTenantID: {{ tenant_id.stdout }}
+aadTenantID: {{ tenant_id }}
 resourceGroup: {{ rg }}
 cloud: {{ openshift_cloudprovider_azure_cloud }}
 location: {{ location }}

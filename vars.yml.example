@@ -50,7 +50,24 @@ admin_privkey: '~/.ssh/id_rsa'
 sp_name: devops
 # Place this in vars file that can be encrypted in root of play and not checked into SCM
 sp_secret: 'password'
-#sp_app_id: 'dfdffdfa0103'
+sp_app_id: 'dfdffdfa0103'
+
+##################################
+# add tenant and subscription ids
+##################################
+tenant_id: 'azure tenant id'
+subscripton_id: 'azure subscription id'
+
+
+######################
+# registry.io        #
+#####################
+# create a service account at https://access.redhat.com/terms-based-registry/
+# add service acct username/password
+registry_io_user: 'user'
+registry_io_user_pswd: 'password'
+
+
 
 #######################
 # RHSM

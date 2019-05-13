@@ -8,10 +8,8 @@ glusterfs_registry
 {% endif %}
 
 [OSEv3:vars]
-# fix for bug
-# https://access.redhat.com/solutions/3480921
-ereg_url_master=registry.access.redhat.com/openshift3/ose-${component}:${version}
-oreg_url_node=registry.access.redhat.com/openshift3/ose-${component}:${version}
+reg_auth_user={{ registry_io_user }}
+oreg_auth_password={{ registry_io_user_pswd }}
 
 
 openshift_examples_modify_imagestreams=true

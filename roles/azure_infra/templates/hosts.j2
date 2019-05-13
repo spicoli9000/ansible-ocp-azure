@@ -34,14 +34,11 @@ openshift_hosted_registry_replicas={{ infra_nodes | length }}
 openshift_master_cluster_method=native
 
 openshift_cloudprovider_kind=azure
-{% if sp_app is defined %}
-openshift_cloudprovider_azure_client_id="{{ sp_app.stdout }}"
-{% elif sp_app_id is defined %}
+# 20190513 use sp_app_id, tenant_id, subscription_id place in vars.yml 
 openshift_cloudprovider_azure_client_id="{{ sp_app_id }}"
-{% endif %}
 openshift_cloudprovider_azure_client_secret="{{ sp_secret }}"
-openshift_cloudprovider_azure_tenant_id="{{ tenant_id.stdout }}"
-openshift_cloudprovider_azure_subscription_id="{{ subscription_id.stdout }}"
+openshift_cloudprovider_azure_tenant_id="{{ tenant_id }}"
+openshift_cloudprovider_azure_subscription_id="{{ subscription_id }}"
 openshift_cloudprovider_azure_resource_group={{ rg }}
 openshift_cloudprovider_azure_location={{ location }}
 openshift_cloudprovider_azure_vnet_name={{ vnet_name }}

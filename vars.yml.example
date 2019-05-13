@@ -34,13 +34,13 @@ vm_size_bastion: Standard_D1
 #######################
 admin_user: cloud-user
 # This will be added to each instance's authorized_keys file
-admin_pubkey: 'ssh-rsa LDKJFDLKJDFLDKJDF'
+admin_pubkey: '**add key here**'
 # Path for the private key which will be added to localhost ssh_config for proxying through the bastion
 admin_privkey: '~/.ssh/id_rsa'
 
 # If set, creates local users with password-less sudo on the bastion.
 #bastion_users:
-#  user1: 'ssh-rsa LDKJFDLKJDFLDKJDF'
+#  user1: '**add key here**'
 #  user2: 'ssh-rsa FDLKJDFLDKJDFLDKJ'
 
 #######################
@@ -70,9 +70,9 @@ rhsm_ocs_pool: ""
 rhsm_repos:
   - rhel-7-server-rpms
   - rhel-7-server-extras-rpms
-  - rhel-7-server-ose-3.10-rpms
+  - rhel-7-server-ose-3.11-rpms
   - rhel-7-fast-datapath-rpms
-  - rhel-7-server-ansible-2.4-rpms
+  - rhel-7-server-ansible-2.6-rpms
 bastion_pkgs:
   - ansible
   - atomic-openshift-clients

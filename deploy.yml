@@ -29,8 +29,8 @@
   import_playbook: /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml
   tags: ocp-deploy
   
-- name: install Grafana
-  import_playbook: /usr/share/ansible/openshift-ansible/playbooks/openshift-grafana/config.yml
+- name: install metrics
+  import_playbook: /usr/share/ansible/openshift-ansible/playbooks/openshift-metrics/config.yml
   tags: 
     - logging-metrics
     - ocp-deploy

@@ -118,6 +118,17 @@ By Default the HTPasswdPasswordIdentityProvider is used but can be customized,  
 - **logging_volume_size**: '100Gi'
 - **prometheus_volume_size**: '20Gi'
 
+## 2019-05 additional notes
+On the machine running ansible, will need to ensure the following items are installed:
+  ```
+#sudo yum install epel-release-latest-7.noarch.rpm
+#sudo yum -y install python2-pip
+#sudo pip install packaging
+#sudo pip install msrestazure
+#sudo pip install ansible[azure]
+  ```
+
+
 ## Deployment
 After all pre-reqs are met and required variables have been filled out the deployment consists of running the following:
 `ansible-playbook deploy.yml -e @vars.yml`

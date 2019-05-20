@@ -133,10 +133,10 @@ After all pre-reqs are met and required variables have been filled out the deplo
 `ansible-playbook deploy.yml -e @vars.yml`
 
 To deploy individual segments use tags:
-Azure infrastructure use: `ansible-playbook deploy.yml -e @vars.yml --tags=infra`
-OCP Prerequisites: `ansible-playbook deploy.yml -e @vars.yml --tags=ocp-pre`
-OCP components: `ansible-playbook deploy.yml -e @vars.yml --tags=ocp-deploy`
-OCP post-install: `ansible-playbook deploy.yml -e @vars.yml --tags=ocp-post`
+- Azure infrastructure only: `ansible-playbook deploy.yml -e @vars.yml --tags=infra`
+- OCP Prerequisites: `ansible-playbook deploy.yml -e @vars.yml --tags=ocp-pre`
+- OCP components: `ansible-playbook deploy.yml -e @vars.yml --tags=ocp-deploy`
+- OCP post-install: `ansible-playbook deploy.yml -e @vars.yml --tags=ocp-post`
 
 The ansible control host running the deployment will be setup to use ssh proxy through the bastion in order to reach all nodes.  The openshift inventory `hosts` file will be templated into the project root directory and used for the Installation. 
 

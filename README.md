@@ -1,6 +1,6 @@
 
 
-# OpenShift on Azure
+# OpenShift on Azure (2019-05 : Work-in-Progress)
 This project automates the installation of OpenShift on Azure using ansible.  It follows the [OpenShift + Azure Reference Architecture](https://access.redhat.com/documentation/en-us/reference_architectures/2018/html-single/deploying_and_managing_openshift_3.9_on_azure/) closely. By default the following is deployed, 3 masters, 3 Infra nodes, 3 app nodes, Logging (EFK), Metrics, Prometheus & Grafana. If deploying OpenShift Container Storage (Formerly CNS), this automation will follow best practices and depending on how many app nodes being deployed will create 1 OCS cluster for all storage is less than 3 app nodes and 2 OCS clusters if greater than or equal to 3 app nodes.  SSH access is restricted into the cluster by allowing only the bastion to reach each Node,  ssh is then proxied from the ansible control host via the bastion accesing nodes by hostname.  `ssh ocp-master-1`    To quickly standup an ansible deploy host have a look at [vagrant-rhel](https://github.com/hornjason/vagrant-rhel),  as of now it only supports [virtualbox and libvirt providers](https://app.vagrantup.com/jasonhorn/boxes/rhel7).
 
 
@@ -42,7 +42,7 @@ Reqs
 A few Pre-Reqs need to be met and are documented in the Reference Architecture already.  **Ansible 2.6 is required**, the ansible control host running the deployment needs to be registered and subscribed to `rhel-7-server-ansible-2.6-rpms`.  Creating a [Service Principal](https://access.redhat.com/documentation/en-us/reference_architectures/2018/html-single/deploying_and_managing_openshift_3.9_on_azure/#service_principal) is documented as well as setting up the Azure CLI.  Currently the Azure CLI is setup on the ansible control host running the deployment using the playbook `azure_cli.yml` or by following instructions here, [Azure CLI Setup](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?toc=%2Fazure%2Fazure-resource-manager%2Ftoc.json&view=azure-cli-latest).
 
  1. Ansible control host setup:
-    Register the ansible control host used for this deployment with valid RedHat subscription thats able to pull down ansible     2.6 or manually install ansible 2.6 along with atomic-openshift-utils.  To quickly create a VM using Vagrant try out [vagrant-rhel](https://github.com/hornjason/vagrant-rhel).
+    Register the ansible control host used for this deployment with valid RedHat subscription thats able to pull down ansible     2.6 or manually install ansible 2.6 along with atomic-openshift-utils. 
 ```
     sudo subscription-manager register --username < username > --password < password >
     sudo subscription-manager attach --pool < pool_id >
@@ -61,7 +61,7 @@ A few Pre-Reqs need to be met and are documented in the Reference Architecture a
  2. Clone this repository
 
  ```
- git clone https://github.com/hornjason/ansible-ocp-azure.git; cd ansible-ocp-azure
+ git clone https://github.com/spicoli9000/ansible-ocp-azure.git; cd ansible-ocp-azure
  ```
  3.  Install Azure CLI,  using playbook included or manually following above directions.
  ```
@@ -118,11 +118,28 @@ By Default the HTPasswdPasswordIdentityProvider is used but can be customized,  
 - **logging_volume_size**: '100Gi'
 - **prometheus_volume_size**: '20Gi'
 
+## 2019-05 additional notes
+On the machine running ansible, will need to ensure the following items are installed:
+  ```
+#sudo yum install epel-release-latest-7.noarch.rpm
+#sudo yum -y install python2-pip
+#sudo pip install packaging
+#sudo pip install msrestazure
+#sudo pip install ansible[azure]
+  ```
+
 ## Deployment
 After all pre-reqs are met and required variables have been filled out the deployment consists of running the following:
 `ansible-playbook deploy.yml -e @vars.yml`
 
-The ansible control host running the deployment will be setup to use ssh proxy through the bastion in order to reach all nodes.  The openshift inventory `hosts` file will be templated into the project root directory and used for the Installation.  
+To deploy individual segments use tags:
+- Azure infrastructure only: `ansible-playbook deploy.yml -e @vars.yml --tags=infra`
+- OCP Prerequisites: `ansible-playbook deploy.yml -e @vars.yml --tags=ocp-pre`
+- OCP components: `ansible-playbook deploy.yml -e @vars.yml --tags=ocp-deploy`
+- OCP post-install: `ansible-playbook deploy.yml -e @vars.yml --tags=ocp-post`
+
+The ansible control host running the deployment will be setup to use ssh proxy through the bastion in order to reach all nodes.  The openshift inventory `hosts` file will be templated into the project root directory and used for the Installation. 
+
 
 ## Destroy
 `ansible-playbook destroy.yml -e@vars.yml`

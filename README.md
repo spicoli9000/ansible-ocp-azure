@@ -1,7 +1,7 @@
 
 
 # OpenShift on Azure (2019-05 : Work-in-Progress)
-This project automates the installation of OpenShift on Azure using ansible.  It follows the [OpenShift + Azure Reference Architecture](https://access.redhat.com/documentation/en-us/reference_architectures/2018/html-single/deploying_and_managing_openshift_3.9_on_azure/) closely. By default the following is deployed, 3 masters, 3 Infra nodes, 3 app nodes, Logging (EFK), Metrics, Prometheus & Grafana. If deploying OpenShift Container Storage (Formerly CNS), this automation will follow best practices and depending on how many app nodes being deployed will create 1 OCS cluster for all storage is less than 3 app nodes and 2 OCS clusters if greater than or equal to 3 app nodes.  SSH access is restricted into the cluster by allowing only the bastion to reach each Node,  ssh is then proxied from the ansible control host via the bastion accesing nodes by hostname.  `ssh ocp-master-1`    To quickly standup an ansible deploy host have a look at [vagrant-rhel](https://github.com/hornjason/vagrant-rhel),  as of now it only supports [virtualbox and libvirt providers](https://app.vagrantup.com/jasonhorn/boxes/rhel7).
+This project automates the installation of OpenShift on Azure using ansible.  It follows the [OpenShift + Azure Reference Architecture](https://access.redhat.com/documentation/en-us/reference_architectures/2018/html-single/deploying_and_managing_openshift_3.9_on_azure/) closely. By default the following is deployed, 3 masters, 3 Infra nodes, 3 app nodes, Logging (EFK), Metrics. If deploying OpenShift Container Storage (Formerly CNS), this automation will follow best practices and depending on how many app nodes being deployed will create 1 OCS cluster for all storage is less than 3 app nodes and 2 OCS clusters if greater than or equal to 3 app nodes.  SSH access is restricted into the cluster by allowing only the bastion to reach each Node,  ssh is then proxied from the ansible control host via the bastion accesing nodes by hostname.  `ssh ocp-master-1`
 
 
 ## Topology
@@ -91,6 +91,14 @@ Most defaults are specified in `role/azure/defaults/main.yml`,  Sensitive inform
  - **sp_name**: - Service Principal name created in step 5.
  - **sp_secret**: - Service Principal secret 
  - **sp_app_id**: - Service Principal APPID
+ 
+ ## added 201905 
+ - **tenant_id**: - Azure tenant id (from cli: # az login)
+ - **subscripton_id**: Azure subscription id (from cli: # az account show -o tsv --query 'id')
+ - **registry_io_user**: Red Hat container catalog user id 
+ - **registry_io_user_pswd**: Red Hat container catalog user password
+ ##
+ 
  - **rhsm_user**: - If subscribing to RHSM using username / password, fill in username
  - **rhsm_pass**: - If subscribing to RHSM using username / password, fill in passowrd for RHSM 
  - **rhsm_key**: -  If subscribing to RHSM using activation key and orgId fill in activation key here.
@@ -113,10 +121,8 @@ By Default the HTPasswdPasswordIdentityProvider is used but can be customized,  
 - **deploy_cns_to_infra**: true  - This should always be 'True' if depoy_cns is 'True', no longer create separate CNS nodes
 - **deploy_metrics**: true
 - **deploy_logging**: true
-- **deploy_prometheus**: true
 - **metrics_volume_size**: '20Gi'
 - **logging_volume_size**: '100Gi'
-- **prometheus_volume_size**: '20Gi'
 
 ## 2019-05 additional notes
 On the machine running ansible, will need to ensure the following items are installed:

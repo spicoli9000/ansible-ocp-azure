@@ -267,6 +267,7 @@ ocp-infra-{{ i }}  openshift_node_group_name='node-config-infra'
 ocp-app-{{ i }}    openshift_node_group_name='node-config-compute'
 {% endfor %}
 
+
 {% if deploy_cns | default(true) | bool  and deploy_cns is defined %}
 {% if ( infra_nodes|length + app_nodes|length ) >= 6 %}
 [glusterfs_registry]
@@ -285,4 +286,7 @@ ocp-app-{{ i }} glusterfs_zone={{ i }} glusterfs_devices='[ "/dev/disk/azure/scs
 ocp-infra-{{ i }}  glusterfs_zone={{ i }} glusterfs_devices='[ "/dev/disk/azure/scsi1/lun2" ]'
 {% endfor %}
 {% endif %}
+{% else %}
+# else empty glusterfs block to resolve rhsm issue (which expects glusterfs block
+[glusterfs]
 {% endif %}

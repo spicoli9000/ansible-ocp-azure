@@ -6,6 +6,7 @@ rg: "test"
 
 #######################
 # nodes
+# will loop thru list create vm-1, vm-2, vm-3
 #######################
 master_nodes: [1,2,3]
 infra_nodes:  [1,2,3]
@@ -66,7 +67,6 @@ subscripton_id: 'azure subscription id'
 # add service acct username/password
 registry_io_user: 'user'
 registry_io_user_pswd: 'password'
-
 
 
 #######################
@@ -205,12 +205,12 @@ openshift_master_identity_providers: [{'name': 'htpasswd_auth', 'login': 'true',
 deploy_cns: true
 deploy_metrics: true
 deploy_logging: true
-deploy_prometheus: true
+#deploy_prometheus: true
 
 # volume sizing defaults
 metrics_volume_size: 25
 logging_volume_size: 100
-prometheus_volume_size: 25
+#prometheus_volume_size: 25
 
 # OpenShift Container StorageClass
 # Sizes in Gi
@@ -228,6 +228,10 @@ ocs_app_cluster_usable_storage: 100
 #######################
 #######################
 # Don't change
+#
+# deploy_cns_on_infra = true ... will not create Gluster VMs
+#
+#
 #######################
 #######################
 bastion: "{{ rg }}b.{{ location }}.cloudapp.azure.com"

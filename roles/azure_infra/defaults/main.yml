@@ -109,12 +109,14 @@ deploy_cns: true
 deploy_cns_on_infra: true
 deploy_metrics: true
 deploy_logging: true
-deploy_prometheus: true
+# 20190528 from 3.10, no longer needed
+#deploy_prometheus: true
 
 # volume sizing defaults
 metrics_volume_size: '20Gi'
 logging_volume_size: '100Gi'
-prometheus_volume_size: '20Gi'
+# 20190528
+#prometheus_volume_size: '20Gi'
 
 
 #######################
